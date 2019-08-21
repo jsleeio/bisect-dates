@@ -1,0 +1,17 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/${_APP}:$TAG_NAME', '-t', 'gcr.io/$PROJECT_ID/${_APP}:latest', '.']
+  id: 'tag'
+
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/${_APP}:$BRANCH_NAME', '.']
+  id: 'branch'
+
+images:
+  - 'gcr.io/$PROJECT_ID/${_APP}:$TAG_NAME'
+  - 'gcr.io/$PROJECT_ID/${_APP}:$BRANCH_NAME'
+  - 'gcr.io/$PROJECT_ID/${_APP}:latest'
+
+# substitutions:
+#  _APP: 'configure-me-in-build-trigger'
